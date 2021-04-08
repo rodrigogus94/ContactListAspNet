@@ -23,8 +23,9 @@ namespace WebMySQL
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            string stringConexao = "Server=localhost;DataBase=TBA_DESTINATION;Uid=root;Pwd=@Lisson300494";
+        {   
+            //Conexão com o banco de dados
+            string stringConexao = "Server=localhost;DataBase=TBA_DESTINATION;Uid=;Pwd=";
             services.AddDbContext<Contexto>(options =>
             options.UseMySQL(stringConexao));
 
