@@ -20,30 +20,28 @@ namespace WebMySQL.Controllers
             _context = context;
         }
 
-        // Listar todos os usuários cadastrados e Buscar
+        /// Listar todos os usuários cadastrados e o método de busca
         public async Task<IActionResult> Index(string searchString)
         {   
             
             var searchDESTINATION = from m in _context.Usuario select m;
 
+
             if(!String.IsNullOrEmpty(searchString))
             {
                 searchDESTINATION = searchDESTINATION.Where(s => 
-                s.DTN_ID.Contains(searchString) );
-            }
-            else if(!String.IsNullOrEmpty(searchString))
-            {
-                searchDESTINATION = searchDESTINATION.Where(x => 
-                x.DTN_DESTINATION.Contains(searchString) );
+                s.DTN_ID.Contains(searchString) || s.DTN_DESTINATION.Contains(searchString) );
+                
             }
 
             return View(await searchDESTINATION.ToListAsync());
         }
 
 
-        // Listar um usuário espescífico
+        // Listar um usuário específico
         public async Task<IActionResult> Details(int? id)
         {
+
             if (id == null)
             {
                 return NotFound();
@@ -52,15 +50,15 @@ namespace WebMySQL.Controllers
             var usuario = await _context.Usuario
 
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (usuario == null)
+            if (usuario != null)
             {
-                return NotFound();
+                return View(usuario);
             }
 
-            return View(usuario);
+            
+            return NotFound();
             
         }
-        //Buscar 
         
 
         // Cadastro de um novo Usuário
@@ -162,6 +160,7 @@ namespace WebMySQL.Controllers
             return _context.Usuario.Any(e => e.Id == id);
         }
 
+        //Método de salvar csv
         [HttpPost]
         public FileResult Exportar()
         {

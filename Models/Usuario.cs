@@ -18,7 +18,7 @@ namespace WebMySQL.Models
         [Required(ErrorMessage = "O DTN_ID é obrigatório e tem que ser de 00 à 1000.")]
         [Range(0,1000)]
         [Column("DTN_ID")]
-        [StringLength(10)]
+        [StringLength(20)]
         public string DTN_ID { get; set; }
 
         [Display(Name = "DTN_DESTINATION")]

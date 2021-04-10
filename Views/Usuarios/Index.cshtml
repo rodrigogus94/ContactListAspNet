@@ -12,13 +12,7 @@
 <p>
     
 </p>
-<form asp-controller="Usuarios" asp-action="Index">
 
-    <p>
-        DTN_ID: <input type="text" name="SearchString" />
-        <input type="submit" value="Buscar" />
-    </p>
-</form>
 <table class="table">
     <thead>
         <tr>
@@ -36,6 +30,15 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                <form asp-controller="Usuarios" asp-action="Index">
+                    
+                    <input type="text" name="SearchString" placeholder="DTN_ID ou DTN_DESTINATION"/>
+                    <input type="submit" value="Buscar" class="btn btn-primary"/>
+                    
+                    
+                </form>
             </th>
             <th></th>
         </tr>
