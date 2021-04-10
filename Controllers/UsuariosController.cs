@@ -20,11 +20,26 @@ namespace WebMySQL.Controllers
             _context = context;
         }
 
-        // Listar todos os usuários cadastrados
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Usuario.ToListAsync());
+        // Listar todos os usuários cadastrados e Buscar
+        public async Task<IActionResult> Index(string searchString)
+        {   
+            
+            var searchDESTINATION = from m in _context.Usuario select m;
+
+            if(!String.IsNullOrEmpty(searchString))
+            {
+                searchDESTINATION = searchDESTINATION.Where(s => 
+                s.DTN_ID.Contains(searchString) );
+            }
+            else if(!String.IsNullOrEmpty(searchString))
+            {
+                searchDESTINATION = searchDESTINATION.Where(x => 
+                x.DTN_DESTINATION.Contains(searchString) );
+            }
+
+            return View(await searchDESTINATION.ToListAsync());
         }
+
 
         // Listar um usuário espescífico
         public async Task<IActionResult> Details(int? id)
@@ -43,7 +58,10 @@ namespace WebMySQL.Controllers
             }
 
             return View(usuario);
+            
         }
+        //Buscar 
+        
 
         // Cadastro de um novo Usuário
         public IActionResult Create()
@@ -53,7 +71,7 @@ namespace WebMySQL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DTN_ID,Nome,Celular,Email")] Usuario usuario)
+        public async Task<IActionResult> Create([Bind("Id,DTN_ID,Nome,DTN_DESTINATION,Celular,Email")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +99,7 @@ namespace WebMySQL.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,DTN_ID,Nome,Celular,Email")] Usuario usuario)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,DTN_ID,Nome, DTN_DESTINATION,Celular,Email")] Usuario usuario)
         {
             if (id != usuario.Id)
             {
@@ -144,14 +162,6 @@ namespace WebMySQL.Controllers
             return _context.Usuario.Any(e => e.Id == id);
         }
 
-        public ActionResult Lista()
-        {
-            Contexto db = _context;
-            var listUsuarios = db.Usuario.ToList();
-            return View(listUsuarios);
-        }
-
-
         [HttpPost]
         public FileResult Exportar()
         {
@@ -159,11 +169,11 @@ namespace WebMySQL.Controllers
 
             //Obtem uma lista de objetos 
             List<object> listUsuarios = (from usuario in db.Usuario.ToList().Take(_context.Usuario.Count())
-                                         select new[] {usuario.DTN_ID, usuario.Nome, usuario.Celular, usuario.Email
+                                         select new[] {usuario.DTN_ID, usuario.Nome, usuario.DTN_DESTINATION, usuario.Celular, usuario.Email
                 }).ToList<object>();
 
             //Insere o nome das colunas
-            listUsuarios.Insert(0, new string[4] { "DTN_ID", "Nome", "Celular", "Email" });
+            listUsuarios.Insert(0, new string[5] { "DTN_ID", "Nome", "DTN_DESTINATION", "Celular", "Email" });
 
             StringBuilder sb = new StringBuilder();
 

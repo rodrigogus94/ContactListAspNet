@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<WebMySQL.Models.Usuario>
 
+
+
 @{
     ViewData["Title"] = "Lista de Usuarios";
    
@@ -10,11 +12,24 @@
 <p>
     
 </p>
+<form asp-controller="Usuarios" asp-action="Index">
+
+    <p>
+        DTN_ID: <input type="text" name="SearchString" />
+        <input type="submit" value="Buscar" />
+    </p>
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.DTN_ID)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DTN_DESTINATION)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Celular)
@@ -29,7 +44,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.DTN_ID)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DTN_DESTINATION)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Celular)
@@ -51,13 +72,13 @@
         <table width="28% ">
             <tr>
                 <td>
-                    <a asp-action="Create" class="btn btn-primary" >Novo usuário</a> 
+                    <a asp-action="Create" class="btn btn-primary" >Adicionar</a> 
                 </td>
                 <td >
                 
                     @using (Html.BeginForm("Exportar", "Usuarios", FormMethod.Post))
                     {
-                        <input class="btn btn-success" type="submit" id="btnSubmit" value="Download da lista" />
+                        <input class="btn btn-success" type="submit" id="btnSubmit" value="Salvar CSV" />
                         
                     }
                 </td>
