@@ -21,12 +21,13 @@ namespace WebMySQL.Controllers
         }
 
         /// Listar todos os usuários cadastrados e o método de busca
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {   
-            
+            ViewData["NomeSort"] = String.IsNullOrEmpty(sortOrder) ? "nome_orde" : "";
+
             var searchDESTINATION = from m in _context.Usuario select m;
-
-
+            
+            //Busca
             if(!String.IsNullOrEmpty(searchString))
             {
                 searchDESTINATION = searchDESTINATION.Where(s => 
@@ -34,7 +35,14 @@ namespace WebMySQL.Controllers
                 
             }
 
-            return View(await searchDESTINATION.ToListAsync());
+            switch(sortOrder)
+            {
+                case "nome_orde":
+                    searchDESTINATION = searchDESTINATION.OrderBy(s => s.DTN_ID);
+                    break;
+            }
+
+            return View(await searchDESTINATION.AsNoTracking().ToListAsync());
         }
 
 

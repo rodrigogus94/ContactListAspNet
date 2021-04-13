@@ -17,7 +17,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.DTN_ID)
+                <a asp-action = "Index" asp-route-sortOrder = "@ViewData["NomeSort"]">@Html.DisplayNameFor(Model => Model.DTN_ID)</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nome)
@@ -36,6 +36,7 @@
                     
                     <input type="text" name="SearchString" placeholder="DTN_ID ou DTN_DESTINATION"/>
                     <input type="submit" value="Buscar" class="btn btn-primary"/>
+                    <a asp-action = "Index" class="btn btn-light">Full list</a>
                     
                     
                 </form>
@@ -47,6 +48,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                
                 @Html.DisplayFor(modelItem => item.DTN_ID)
             </td>
             <td>
