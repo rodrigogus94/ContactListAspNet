@@ -77,7 +77,7 @@ namespace WebMySQL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DTN_ID,Nome,DTN_DESTINATION,Celular,Email")] Usuario usuario)
+        public async Task<IActionResult> Create([Bind("Id,DTN_ID,DTN_DESTINATION")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
@@ -105,7 +105,7 @@ namespace WebMySQL.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,DTN_ID,Nome, DTN_DESTINATION,Celular,Email")] Usuario usuario)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,DTN_ID, DTN_DESTINATION")] Usuario usuario)
         {
             if (id != usuario.Id)
             {
@@ -176,11 +176,10 @@ namespace WebMySQL.Controllers
 
             //Obtem uma lista de objetos 
             List<object> listUsuarios = (from usuario in db.Usuario.ToList().Take(_context.Usuario.Count())
-                                         select new[] {usuario.DTN_ID, usuario.Nome, usuario.DTN_DESTINATION, usuario.Celular, usuario.Email
-                }).ToList<object>();
+                                         select new[] {usuario.DTN_ID, usuario.DTN_DESTINATION  }).ToList<object>();
 
             //Insere o nome das colunas
-            listUsuarios.Insert(0, new string[5] { "DTN_ID", "Nome", "DTN_DESTINATION", "Celular", "Email" });
+            listUsuarios.Insert(0, new string[2] { "DTN_ID", "DTN_DESTINATION" });
 
             StringBuilder sb = new StringBuilder();
 
