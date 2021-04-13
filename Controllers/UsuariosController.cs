@@ -20,7 +20,7 @@ namespace WebMySQL.Controllers
             _context = context;
         }
 
-        /// Listar todos os usuários cadastrados e o método de busca
+        /// Listar todos os usuários cadastrados e o método de busca 
         public async Task<IActionResult> Index(string sortOrder, string searchString)
         {   
             ViewData["NomeSort"] = String.IsNullOrEmpty(sortOrder) ? "nome_orde" : "";
@@ -34,7 +34,7 @@ namespace WebMySQL.Controllers
                 s.DTN_ID.Contains(searchString) || s.DTN_DESTINATION.Contains(searchString) );
                 
             }
-
+            //Ordena a lista 
             switch(sortOrder)
             {
                 case "nome_orde":
