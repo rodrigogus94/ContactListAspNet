@@ -25,7 +25,7 @@ namespace WebMySQL
         public void ConfigureServices(IServiceCollection services)
         {   
             //Conexão com o banco de dados
-            string stringConexao = "Server=localhost;DataBase=TBA_DESTINATION;Uid=rodrigo;Pwd=@Lisson300494";
+            string stringConexao = "Server=localhost;DataBase=TBA_DESTINATION;Uid=root;Pwd=?";
             services.AddDbContext<Contexto>(options =>
             options.UseMySQL(stringConexao));
 
